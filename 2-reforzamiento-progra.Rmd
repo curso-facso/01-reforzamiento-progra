@@ -25,6 +25,7 @@ knitr::opts_chunk$set(
   warning = FALSE,
   hiline = TRUE
 )
+options(scipen = 999)
 ```
 
 ```{r xaringan-themer, include=FALSE, warning=FALSE}
@@ -36,11 +37,6 @@ library(xaringanthemer)
 #)
 xaringanExtra::use_panelset()
 
-library(quanteda)
-require(quanteda.textstats)
-require(quanteda.textplots)
-require(quanteda.corpora)
-require(quanteda.textmodels)
 ```
 
 
@@ -234,28 +230,322 @@ if (mascota == "pulga") {
 
 
 ---
- 
-## if, else 
 
-#### Vamos a similar el lanzamiento de una moneda
+## if..else..  
+
+Sí se cumple la condición, ejecuta **A**. En otro caso, ejecuta **B** 
+ 
+```{r}
+mascota <- "gato"
+
+if (mascota == "perro") {
+  print("Mi mascota es un perro")
+} else {
+  print("Mi mascota NO es un perro")
+}
+
+
+```
+
+--
+ 
+```{r}
+mascota <- "perro"
+
+if (mascota == "perro") {
+  print("Mi mascota es un perro")
+} else {
+  print("Mi mascota NO es un perro")
+}
+
+
+```
+
+#### En el segundo caso evaluamos 2 sentencias
+
+---
+
+## Volvamos a analizar este código
+
 
 ```{r}
-random <- runif(1)
+mascota <- "perro"
 
-if (random < 0.5) {
+if (mascota == "perro") {
+  print("Mi mascota es un perro")
+} else {
+  print("Mi mascota NO es un perro")
+}
+
+```
+
+--
+
+```{r, eval=FALSE}
+if (mascota == "perro") {
+  print("Mi mascota es un perro")
+}
+
+if (mascota != "perro") {
+  print("Mi mascota NO es un perro")
+}
+```
+
+
+
+ 
+---
+
+## Último ejemplo con if..else..
+
+.pull-left[
+
+#### Vamos a simular el lanzamiento de una moneda
+
+]
+
+.pull-right[
+<img src="imagenes/moneda.png" width="100" />
+]
+
+
+```{r, echo=FALSE}
+set.seed(1234)
+```
+
+Variable aleatoria entre 0 y 1 
+
+```{r}
+lanzamiento <- runif(1) 
+lanzamiento
+```
+
+--
+
+### ¿Qué imprimirá este código?
+
+```{r, eval=FALSE}
+
+if (lanzamiento < 0.5) {
   lado_moneda <- "cara"
+} else {
+  lado_moneda <- "sello"
+}
+print(lado_moneda)
+```
+--
+
+```{r, echo=FALSE}
+
+if (lanzamiento < 0.5) {
+  lado_moneda <- "cara"
+} else {
+  lado_moneda <- "sello"
+}
+print(lado_moneda)
+
+```
+
+
+---
+
+## Ejercicio: Moneda cargada  
+
+Si se cumplen simultaneamente 2 eventos, el curso gana un premio
+
+- Cara en una moneda cargada (cara = 40% y sello = 60%)
+- Obtenemos 1, 3 o 5 en un dado de 6 caras
+
+
+Si ambas condiciones se cumplen, el código debe imprimir *¡Premio para el curso!*. En otro caso, debe imprimir *Pucha, sigue participando*
+
+--
+
+El código para simular un dado es el siguiente
+
+```{r dado virtual}
+resultado_dado <- sample(1:6, size = 1)
+resultado_dado
+```
+
+
+---
+
+## Anidando if y else
+
+¿Qué pasa si queremos un flujo que refleje varios caminos?
+
+--
+
+```{r}
+
+lanzamiento_dado <- sample(1:6, size = 1)
+lanzamiento_moneda <- runif(n = 1)
+
+# Lanzamiento de moneda cargada
+if (lanzamiento_moneda > 0.6   ) {
+  
+  # Ahora tengo una etapa de menor dificultad
+  if (runif(n = 1) > 0.5) {
+    
+    print("¡Premio para el curso!")  
+    
+  } else {
+    print("Pucha, sigue participando")    
+  }
+
+# Me fue mal en el primer lanzamiento, pero tengo otra oportunidad    
+} else {
+  # Volvemos a lanzar una moneda muy cargada
+  if (runif(n = 1) > 0.7) {
+    print("¡Premio para el curso!")  
+    
+  } else {
+    print("Pucha, sigue participando")    
+  }
+
+}
+
+```
+
+
+---
+
+## Subsidio a los hogares: if..elif..else
+
+
+Queremos establecer un subsidio, según el ingreso de los hogares.
+
+- [0-400M)     ==> 200.000
+
+- [400M-600M)  ==> 150.000
+
+- [600M-800M)  ==> 100.000
+
+- [800M-1000M) ==> 50.000
+
+
+
+### ¿Nos sirve lo que hemos aprendido hasta ahora? 
+
+Podríamos usar muchos `if` consecutivos
+
+---
+
+## Solución subóptima
+
+```{r}
+
+ingreso <- 100000
+
+if (ingreso < 400000) { #<<
+  subsidio <- 200000 #<<
+}  #<<
+
+if (ingreso >= 400000 & ingreso < 600000 ) {
+  subsidio <- 150000
+}
+
+if (ingreso >= 600000 & ingreso < 800000 ) {
+  subsidio <- 100000
+}
+
+if (ingreso >= 800000 & ingreso < 1000000 ) {
+  subsidio <- 50000
+} 
+if (ingreso >= 1000000 ) {
+  subsidio <- 0
 } 
 
 
 ```
 
+---
+
+## if..elif..else
+
+
+Podemos usar algo llamado elif
 
 ```{r}
-hay_info <- TRUE
 
-if (hay_info) {
-  print("Hay información")
+ingreso <- 100000
+
+if (ingreso < 400000) { #<<
+  subsidio <- 200000 #<<
+
+} else if  (ingreso >= 400000 & ingreso < 600000 ) {
+  subsidio <- 150000
+
+} else if (ingreso >= 600000 & ingreso < 800000 ) {
+  subsidio <- 100000
+
+} else if (ingreso >= 800000 & ingreso < 1000000 ) {
+  subsidio <- 50000
+ 
+} else  {
+  subsidio <- 0
+} 
+
+```
+
+---
+
+## Ejercicio: subsidio desempleo joven
+
+Usted debe crear un programa que asigne un subsidio a las personas, en función de su edad y situación en el empleo. 
+
+Las reglas son las siguientes:
+- Edad < 25 y desocupado ==> 125.000
+- Edad >= 25 y desocupado ==> 200.000
+- Ocupado ==> 0
+
+Los estados de ocupación pueden ser: ocupado o desocupado
+
+En caso de que se cumpla una condición, el programa debe responder lo siguiente: "usted tiene un subsidio de (monto recibido)"
+
+Considere que el programa cuenta con un fondo inicial de 600.000, que va disminuyendo conforme se asignan los recursos. En caso de que el fondo se agote, el programa debe enviar el siguiente mensaje: "ya no quedan recursos". En caso de que el saldo no alcance a cubrir el subsidio, el programa debe entregar lo que tenga disponible y dejar el fondo en 0.    
+
+--
+
+#### Ejemplo de ejecución 4 ejecuciones
+
+```{r}
+fondo <- 600000
+edad <- 22
+situacion_empleo <- "desocupado" 
+```
+
+
+```{r}
+
+
+if (fondo > 0) {
+  if (edad  < 25 & situacion_empleo == "desocupado" ) {
+    
+    subsidio <- 125000
+    diferencia <- fondo -  subsidio
+    if (diferencia > 0 ) {
+      paste0("usted tiene un subsidio de ", subsidio)
+    } else {
+      paste0("usted tiene un subsidio de ", abs(diferencia) )
+    }
+    
+  
+  } else if (edad  >= 25 & situacion_empleo == "desocupado") {
+    subsidio <- 200000
+    paste0("usted tiene un subsidio de ", subsidio)
+    
+  } else {
+    subsidio <- 0
+    paste0("usted tiene un subsidio de ", subsidio)
+  }
+  fondo <- fondo - subsidio  
+} else {
+  print("ya no quedan recursos")
 }
+
+
 
 
 ```

@@ -124,7 +124,7 @@ class: inverse center middle
 
 ---
 
-## if, else, elif 
+## if
 
 
 ```r
@@ -148,7 +148,7 @@ Si se cumple la condición, se ejecuta el código que está dentro del bloque
 
 ---
 
-## if, else, elif 
+## if
 
 #### ¿Qué imprime este código?
 
@@ -179,7 +179,7 @@ if (mascota == "canguro") {
 
 ---
 
-## if, else, elif 
+## if
 
 #### ¿Qué imprime este código?
 
@@ -210,36 +210,277 @@ if (mascota == "pulga") {
 ```
 
 
+---
+
+## if..else..  
+
+Sí se cumple la condición, ejecuta **A**. En otro caso, ejecuta **B** 
+ 
+
+```r
+mascota &lt;- "gato"
+
+if (mascota == "perro") {
+  print("Mi mascota es un perro")
+} else {
+  print("Mi mascota NO es un perro")
+}
+```
+
+```
+## [1] "Mi mascota NO es un perro"
+```
+
 --
  
 
+```r
+mascota &lt;- "perro"
+
+if (mascota == "perro") {
+  print("Mi mascota es un perro")
+} else {
+  print("Mi mascota NO es un perro")
+}
+```
+
+```
+## [1] "Mi mascota es un perro"
+```
+
+#### En el segundo caso evaluamos 2 sentencias
+
+---
+
+## Volvamos a analizar este código
+
+
 
 ```r
-random &lt;- runif(1)
-lado_moneda &lt;- "sello"
+mascota &lt;- "perro"
 
-if (random &lt; 0.5) {
+if (mascota == "perro") {
+  print("Mi mascota es un perro")
+} else {
+  print("Mi mascota NO es un perro")
+}
+```
+
+```
+## [1] "Mi mascota es un perro"
+```
+
+--
+
+
+```r
+if (mascota == "perro") {
+  print("Mi mascota es un perro")
+}
+
+if (mascota != "perro") {
+  print("Mi mascota NO es un perro")
+}
+```
+
+
+
+ 
+---
+
+## Último ejemplo con if..else..
+
+.pull-left[
+
+#### Vamos a simular el lanzamiento de una moneda
+
+]
+
+.pull-right[
+&lt;img src="imagenes/moneda.png" width="100" /&gt;
+]
+
+
+
+
+Variable aleatoria entre 0 y 1 
+
+
+```r
+lanzamiento &lt;- runif(1) 
+lanzamiento
+```
+
+```
+## [1] 0.1137034
+```
+
+--
+
+### ¿Qué imprimirá este código?
+
+
+```r
+if (lanzamiento &lt; 0.5) {
   lado_moneda &lt;- "cara"
-} 
+} else {
+  lado_moneda &lt;- "sello"
+}
 print(lado_moneda)
 ```
+--
+
 
 ```
 ## [1] "cara"
 ```
 
 
+---
+
+## Ejercicio: Moneda cargada  
+
+Si se cumplen simultaneamente 2 eventos, el curso gana un premio
+
+- Cara en una moneda cargada (cara = 40% y sello = 60%)
+- Obtenemos 1, 3 o 5 en un dado de 6 caras
+
+
+Si ambas condiciones se cumplen, el código debe imprimir *¡Premio para el curso!*. En otro caso, debe imprimir *Pucha, sigue participando*
+
+--
+
+El código para simular un dado es el siguiente
+
 
 ```r
-hay_info &lt;- TRUE
+resultado_dado &lt;- sample(1:6, size = 1)
+resultado_dado
+```
 
-if (hay_info) {
-  print("Hay información")
+```
+## [1] 2
+```
+
+
+---
+
+## Anidando if y else
+
+¿Qué pasa si queremos un flujo que refleje varios caminos?
+
+--
+
+
+```r
+lanzamiento_dado &lt;- sample(1:6, size = 1)
+lanzamiento_moneda &lt;- runif(n = 1)
+
+# Lanzamiento de moneda cargada
+if (lanzamiento_moneda &gt; 0.6   ) {
+  
+  # Ahora tengo una etapa de menor dificultad
+  if (runif(n = 1) &gt; 0.5) {
+    
+    print("¡Premio para el curso!")  
+    
+  } else {
+    print("Pucha, sigue participando")    
+  }
+
+# Me fue mal en el primer lanzamiento, pero tengo otra oportunidad    
+} else {
+  # Volvemos a lanzar una moneda muy cargada
+  if (runif(n = 1) &gt; 0.7) {
+    print("¡Premio para el curso!")  
+    
+  } else {
+    print("Pucha, sigue participando")    
+  }
+
 }
 ```
 
 ```
-## [1] "Hay información"
+## [1] "¡Premio para el curso!"
+```
+
+
+---
+
+## Subsidio a los hogares: if..elif..else
+
+
+Queremos establecer un subsidio, según el ingreso de los hogares.
+
+- [0-400M)     ==&gt; 200.000
+
+- [400M-600M)  ==&gt; 150.000
+
+- [600M-800M)  ==&gt; 100.000
+
+- [800M-1000M) ==&gt; 50.000
+
+
+
+### ¿Nos sirve lo que hemos aprendido hasta ahora? 
+
+Podríamos usar muchos `if` consecutivos
+
+---
+
+## Solución subóptima
+
+
+```r
+ingreso &lt;- 100000
+
+*if (ingreso &lt; 400000) {
+* subsidio &lt;- 200000
+*} 
+
+if (ingreso &gt;= 400000 &amp; ingreso &lt; 600000 ) {
+  subsidio &lt;- 150000
+}
+
+if (ingreso &gt;= 600000 &amp; ingreso &lt; 800000 ) {
+  subsidio &lt;- 100000
+}
+
+if (ingreso &gt;= 800000 &amp; ingreso &lt; 1000000 ) {
+  subsidio &lt;- 50000
+} 
+if (ingreso &gt;= 1000000 ) {
+  subsidio &lt;- 0
+} 
+```
+
+---
+
+## if..elif..else
+
+
+Podemos usar algo llamado elif
+
+
+```r
+ingreso &lt;- 100000
+
+*if (ingreso &lt; 400000) {
+* subsidio &lt;- 200000
+
+} else if  (ingreso &gt;= 400000 &amp; ingreso &lt; 600000 ) {
+  subsidio &lt;- 150000
+
+} else if (ingreso &gt;= 600000 &amp; ingreso &lt; 800000 ) {
+  subsidio &lt;- 100000
+
+} else if (ingreso &gt;= 800000 &amp; ingreso &lt; 1000000 ) {
+  subsidio &lt;- 50000
+ 
+} else  {
+  subsidio &lt;- 0
+} 
 ```
 
 
