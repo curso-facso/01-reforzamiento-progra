@@ -1,0 +1,272 @@
+---
+title: "Métodos Computacionales para las Ciencias Sociales"
+subtitle: "Reforzamiento en programación I"  
+author: 
+  - "Klaus Lehmann"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer2.css
+    nature:
+      slideNumberFormat: "%current%"
+      highlightStyle: github
+      highlightLines: true
+      ratio: 16:9
+      countIncrementalSlides: true
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(
+   fig.retina=3,
+  out.width = "70%",
+  cache = FALSE,
+  echo = T,
+  message = FALSE, 
+  warning = FALSE,
+  hiline = TRUE
+)
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+#style_duo_accent(
+#  primary_color = "#1381B0",
+#  secondary_color = "#FF961C",
+#  inverse_header_color = "#FFFFFF"
+#)
+xaringanExtra::use_panelset()
+
+library(quanteda)
+require(quanteda.textstats)
+require(quanteda.textplots)
+require(quanteda.corpora)
+require(quanteda.textmodels)
+```
+
+
+## Contenidos de la clase
+
+- Control de flujos
+
+- Práctica 1
+
+- *Loops* (for y while)
+
+- Práctica 2
+
+---
+
+## ¿Por qué necesito programar?
+
+- Recolección de datos
+
+- Edición de datos
+
+- Análisis de datos
+
+- Comunicación de datos
+
+--
+
+#### Es una habilidad fundamental para el trabajo como analista
+
+--
+
+#### La programación es una herramienta de aprendizaje
+
+--
+
+#### Nos pone en contacto con una comunidad enorme
+
+
+---
+
+## Existen muchos lenguajes de programación
+
+
+R
+
+Python
+
+JavaScript
+
+C C++ C#
+
+Java
+
+Scala
+
+Rust
+
+--
+
+Y un largo etcétera
+
+--
+
+### Nosotros trabajaremos con R (90%) y Python (10%)
+
+---
+
+## Punto de partida
+
+Asumiré que todos y todas:
+
+- Están familiarizados con `R` y RStudio
+
+--
+
+- Manejan los principales paquetes dentro de `tidyverse`
+
+--
+
+- Tienen algo de experiencia con `dplyr` (mutate, filter, group_by, summarise, if_else, select, joins, pivots) 
+
+--
+
+### Si necesitan reforzar estos contenidos, acérquense o escríbanme un correo 
+
+--
+
+### Puedo facilitar material extra 
+
+---
+class: inverse center middle
+
+# Controles de flujo
+
+---
+
+## if
+
+```{r}
+mascota <- "gato"
+
+if (mascota == "perro") {
+  print("Mi mascota es un perro")
+}
+
+if (mascota == "gato") {
+  print("Mi mascota es un gato")
+}
+
+```
+
+
+Si se cumple la condición, se ejecuta el código que está dentro del bloque
+
+---
+
+## if
+
+#### ¿Qué imprime este código?
+
+```{r, eval=FALSE}
+
+mascota <- "canguro"
+
+if (mascota == "canguro") {
+  print("Mi mascota es un canguro")
+}
+
+if (mascota == "canguro") {
+  print("Mi mascota es un canguro")
+}
+
+```
+
+--
+
+```{r, echo=FALSE}
+
+mascota <- "canguro"
+
+if (mascota == "canguro") {
+  print("Mi mascota es un canguro")
+}
+
+if (mascota == "canguro") {
+  print("Mi mascota es un canguro")
+}
+
+```
+
+
+---
+
+## if
+
+#### ¿Qué imprime este código?
+
+```{r, eval=FALSE}
+
+mascota <- "canguro"
+
+if (mascota == "canguro") {
+  print("Mi mascota es un canguro")
+}
+
+mascota <- "pulga"
+
+if (mascota == "pulga") {
+  print("Mi mascota es una pulga")
+}
+
+```
+
+--
+
+```{r, echo=FALSE}
+
+mascota <- "canguro"
+
+if (mascota == "canguro") {
+  print("Mi mascota es un canguro")
+}
+
+mascota <- "pulga"
+
+if (mascota == "pulga") {
+  print("Mi mascota es una pulga")
+}
+
+```
+
+
+---
+ 
+## if, else 
+
+#### Vamos a similar el lanzamiento de una moneda
+
+```{r}
+random <- runif(1)
+
+if (random < 0.5) {
+  lado_moneda <- "cara"
+} 
+
+
+```
+
+
+```{r}
+hay_info <- TRUE
+
+if (hay_info) {
+  print("Hay información")
+}
+
+
+```
+
+
+
+---
+class: center, middle
+
+## Métodos Computacionales para las Ciencias Sociales
+
+### Hasta la próxima clase
+
+
