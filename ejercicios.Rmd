@@ -1,8 +1,29 @@
 ---
-title: "Resolución ejercicios"
+title: "Resolución ejercicios semana 2"
 output: pdf_document
-date: "2023-07-06"
 ---
+
+
+# Dado cargado
+
+```{r}
+lanzamiento_dado <- sample(1:6, size = 1)
+lanzamiento_moneda <- runif(n = 1)
+
+print(lanzamiento_dado)
+print(lanzamiento_moneda)
+
+
+if (lanzamiento_moneda > 0.6 & lanzamiento_dado %in% c(1, 3, 5)  ) {
+  print("¡Premio para el curso!")  
+  
+} else {
+  print("Pucha, sigue participando")
+}
+
+```
+
+
 
 # Subsidio desempleo joven
 
