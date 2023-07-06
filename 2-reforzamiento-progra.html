@@ -321,7 +321,7 @@ lanzamiento
 
 
 ```r
-if (lanzamiento &lt; 0.5) {
+if (lanzamiento &lt;= 0.5) {
   lado_moneda &lt;- "cara"
 } else {
   lado_moneda &lt;- "sello"
@@ -372,15 +372,16 @@ resultado_dado
 --
 
 
+
 ```r
 lanzamiento_dado &lt;- sample(1:6, size = 1)
 lanzamiento_moneda &lt;- runif(n = 1)
 
 # Lanzamiento de moneda cargada
-if (lanzamiento_moneda &gt; 0.6   ) {
+if (lanzamiento_moneda &gt;= 0.6   ) {
   
   # Ahora tengo una etapa de menor dificultad
-  if (runif(n = 1) &gt; 0.5) {
+  if (runif(n = 1) &gt;= 0.5) {
     
     print("¡Premio para el curso!")  
     
@@ -391,7 +392,7 @@ if (lanzamiento_moneda &gt; 0.6   ) {
 # Me fue mal en el primer lanzamiento, pero tengo otra oportunidad    
 } else {
   # Volvemos a lanzar una moneda muy cargada
-  if (runif(n = 1) &gt; 0.7) {
+  if (runif(n = 1) &gt;= 0.7) {
     print("¡Premio para el curso!")  
     
   } else {
@@ -483,7 +484,270 @@ ingreso &lt;- 100000
 } 
 ```
 
+---
 
+## Ejercicio: subsidio desempleo joven
+
+Usted trabaja en una municipalidad y le encargan crear un programa que asigne un subsidio a las personas, en función de su edad y situación en el empleo. 
+
+Las reglas son las siguientes:
+- Edad &lt; 25 y desocupado ==&gt; 125.000
+- Edad &gt;= 25 y desocupado ==&gt; 200.000
+- Ocupado ==&gt; 0
+
+Los estados de ocupación pueden ser: ocupado o desocupado
+
+En caso de que se cumpla una condición, el programa debe responder lo siguiente: "usted tiene un subsidio de (monto recibido)"
+
+Considere que el programa cuenta con un fondo inicial de 600.000, que va disminuyendo conforme se asignan los recursos. En caso de que el fondo se agote, el programa debe enviar el siguiente mensaje: "ya no quedan recursos". En caso de que el saldo no alcance a cubrir el subsidio, el programa debe entregar lo que tenga disponible y dejar el fondo en 0.    
+
+No olvide agregar un `print` al final para ver el saldo después de cada operación
+
+Para probar el funcionamiento del código, considera la siguiente secuencia casos:
+
+- ocupado, 21 años  (saldo = 600)
+- desocupado, 21 años (saldo = 475)
+- desocupado, 27 años (saldo = 275)
+- desocupado, 29 años (saldo = 75)
+- desocupado, 27 años (saldo = -125 y entrega solo 75)
+
+
+---
+
+class: inverse center middle
+
+# Loops
+
+
+---
+
+## ¿Qué son los loops?
+
+Secuencias de instrucciones de código que se ejecutan repetidas veces, hasta que una condición deja de cumplirse 
+
+--
+
+**En R existen 3 tipos de loops:**
+- for 
+- while
+- repeat
+
+**Nos concentraremos en los 2 primeros**
+
+---
+
+## Veamos un ejemplo práctico
+
+Queremos conocer todos los números divisibles por 3 desde el 1 al 1.000
+
+.center[
+&lt;img src="https://media.giphy.com/media/PqJw1B297Kp46Ui0zi/giphy.gif" width="200" /&gt;
+]
+
+--
+
+
+```r
+for (i in 1:5) {
+  print(i)
+}
+```
+
+```
+## [1] 1
+## [1] 2
+## [1] 3
+## [1] 4
+## [1] 5
+```
+
+
+---
+
+## Divisibles por 3
+
+Debemos obtener el resto que resulta de dividir un número por 3. Si ese resto es 0, entonces el número es divisible por 3
+
+Podemos usar el operador módulo %%
+
+--
+
+Ejemplos:
+
+```r
+2 %% 3 # no es divisible
+```
+
+```
+## [1] 2
+```
+
+```r
+9 %% 3 # divisible
+```
+
+```
+## [1] 0
+```
+
+```r
+11 %% 3 #no es divisible
+```
+
+```
+## [1] 2
+```
+
+```r
+12 %% 3 # divisible
+```
+
+```
+## [1] 0
+```
+
+
+
+---
+
+## Divisibles por 3: for
+
+
+
+```r
+contar = 0
+for (i in 1:1000) {
+  if (i %% 3 == 0) {
+    contar = contar + 1
+  }  
+}
+print(contar)
+```
+
+```
+## [1] 333
+```
+
+
+---
+
+## Trabajando con bandas
+
+Queremos conocer cuántos caracteres tienen los nombres de ~~mis~~ nuestras bandas o músicos favoritos
+
+
+```r
+bandas &lt;- c("pedro aznar", "metallica", "ases falsos", "tool", "charlie parker", "rush", 
+            "juana fe", "toto", "foo fighters", "red hot chili peppers")
+```
+
+--
+
+
+```r
+for (banda in bandas) {
+  print(paste(banda,  nchar(banda) )  )
+} 
+```
+
+```
+## [1] "pedro aznar 11"
+## [1] "metallica 9"
+## [1] "ases falsos 11"
+## [1] "tool 4"
+## [1] "charlie parker 14"
+## [1] "rush 4"
+## [1] "juana fe 8"
+## [1] "toto 4"
+## [1] "foo fighters 12"
+## [1] "red hot chili peppers 21"
+```
+
+
+---
+
+## 10.000 lanzamientos de moneda
+
+Utilizando la función runif(), simule 10.000 lanzamientos de una moneda y cuente cuántas caras y sellos resultan 
+
+Recuerde que debe definir un límite de 0.5 y establecer hacia hacia dónde es cara y hacia dónde sello
+
+
+ 
+---
+class: inverse center middle
+
+# while
+
+---
+
+## ¿Para qué sirve un ciclo while?
+
+Está más orientado "resolver" eventos
+
+Veamos pseudo código para un cajero automático
+
+
+```r
+while (quedan fondos) {
+  entrega dinero  
+}
+```
+
+--
+
+El programa se ejecuta hasta que la condición deja de cumplirse
+
+Si la cuenta llega a 0, el código deja de ejecutarse
+
+---
+
+## Escribamos el código para un "juego" de adivinanzas
+
+
+
+```r
+adivinanza &lt;- 999
+numero_secreto &lt;- sample(c(1:10), 1) 
+print(numero_secreto)
+
+while (numero_secreto != adivinanza) {
+  adivinanza &lt;-  as.integer(readline("Adivina el número secreto: "))   
+  
+  if (numero_secreto == adivinanza) {
+    print("¡acertaste!")
+  }
+  
+}
+```
+
+
+---
+
+## Ejercicio final: búsqueda binaria
+
+Modifiquemos el juego anterior
+
+1. El rango de valores para buscar será todos los enteros entre 1 a 100
+
+2. Cuando el usuario no acierte, debemos indicar si el número secreto es mayor o menor al número ingresado  
+
+3. Debemos guardar los intentos realizados y cuando el usuario adivine, debemos escribir "Felicitaciones, acertaste después de n intentos" 
+
+4. Si el usuario escribe "stop", el programa se detiene y envía el siguiente mensaje: "Gracias por participar en este apasionante juego" 
+
+---
+
+## Temas importantes que quedaron fuera de la clase por tiempo
+
+- For anidado
+- Funcionales (map, apply, lapply, etc)
+
+--
+
+La próxima semana terminaremos nuestro repaso de programación
+
+Comenzaremos con temas un poco más sociológicos
 
 ---
 class: center, middle
