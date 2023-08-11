@@ -351,13 +351,16 @@ print(lado_moneda)
 
 ## Ejercicio: Moneda cargada  
 
-Si se cumplen simultaneamente 2 eventos, el curso gana un premio
+Escribir un código que simule el lanzamiento de una moneda cargada y un dado.
+
+Para ganar, deben cumplirse 2 condiciones:
 
 - Cara en una moneda cargada (cara = 40% y sello = 60%)
 - Obtenemos 1, 3 o 5 en un dado de 6 caras
 
-
 Si ambas condiciones se cumplen, el código debe imprimir *¡Premio para el curso!*. En otro caso, debe imprimir *Pucha, sigue participando*
+
+**Si se cumplen simultáneamente los 2 eventos, el curso gana un premio**👀
 
 --
 
