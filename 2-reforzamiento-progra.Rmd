@@ -657,6 +657,18 @@ Si la cuenta llega a 0, el código deja de ejecutarse
 
 ## Escribamos el código para un "juego" de adivinanzas
 
+Pero antes, hagamos un pequeño rodeo por `readline`
+
+--
+
+Esta función nos permite recibir valores del usuario
+
+```{r, eval=FALSE}
+input <- readline("Introduce un número del 1 al 10")
+```
+
+
+--
 
 ```{r, eval=FALSE}
 
